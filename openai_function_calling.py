@@ -19,7 +19,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 # Ask ChatGPT a Question
 # --------------------------------------------------------------
 
-"""
+
 completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo-0613",
     messages=[
@@ -33,7 +33,7 @@ completion = openai.ChatCompletion.create(
 output = completion.choices[0].message.content
 print(output)
 
-"""
+
 
 # --------------------------------------------------------------
 # Use OpenAI’s Function Calling Feature
@@ -338,3 +338,6 @@ fourth_response = llm.predict_messages(
 )
 
 print(fourth_response)
+
+# --------------------------------------------------------------
+
