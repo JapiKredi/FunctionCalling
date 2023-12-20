@@ -3,7 +3,7 @@
 # !pip install -q openai-whisper
 # !pip install -q gradio
 # !pip install -q openai
-
+# brew install espeak
 import os
 import whisper
 import gradio as gr 
