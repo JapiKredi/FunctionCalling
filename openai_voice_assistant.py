@@ -4,6 +4,7 @@
 # !pip install -q gradio
 # !pip install -q openai
 
+import os
 import whisper
 import gradio as gr 
 import openai
@@ -13,7 +14,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
 
 # TTS.list_models()
 
