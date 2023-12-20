@@ -26,6 +26,9 @@ def get_stock_price(symbol: str) -> float:
     price = stock.history(period="1d")['Close'].iloc[-1]
     return price
 
+# Define a class called AssistantManager that manages an assistant for interacting with the OpenAI API.
+# initializes the AssistantManager object with an api_key and an optional model parameter. 
+# Set the api_key to the client attribute, sets the model to the model attribute, and initializes the assistant, thread, and run attributes to None.
 
 
 class AssistantManager:
@@ -36,24 +39,39 @@ class AssistantManager:
         self.thread = None
         self.run = None
 
+# Creating a class that manages an assistant, creates an assistant, creates a thread, and adds messages to the thread using the OpenAI API.
+# The create_assistant method creates an assistant using the OpenAI API. 
+# It takes name, instructions, and tools as parameters and assigns the created assistant to the assistant attribute.
+
     def create_assistant(self, name, instructions, tools):
         self.assistant = self.client.beta.assistants.create(
-            name=name,
+            name-name,
             instructions=instructions,
             tools=tools,
-            model=self.model
+            model=self.model          
         )
+
+# The create_thread method creates a thread using the OpenAI API.
+# It assigns it to the thread attribute.
 
     def create_thread(self):
         self.thread = self.client.beta.threads.create()
 
-    def add_message_to_thread(self, role, content):
+# Add a message to the thread. 
+# It takes role and content as parameters and creates a message in the thread using the OpenAI API.
+    def add_message_to_thread(self,role,content):
         self.client.beta.threads.messages.create(
-            thread_id=self.thread.id,
+            threads_id = self.thread.id,
             role=role,
             content=content
         )
-
+        
+    # run_assistant method is a function that runs the assistant for a given set of instructions.
+    # Creates a new run for the assistant using the beta.threads module of the client object. 
+    # It takes instructions as a parameter and assigns the created run to the run attribute.
+    # thread_id: The ID of the thread associated with the run, which is obtained from the self.thread attribute.
+    # assistant_id: The ID of the assistant to be used for the run, which is obtained from the self.assistant attribute.
+    # instructions: The instructions to be provided to the assistant during the run
     def run_assistant(self, instructions):
         self.run = self.client.beta.threads.runs.create(
             thread_id=self.thread.id,
@@ -61,6 +79,7 @@ class AssistantManager:
             instructions=instructions
         )
 
+    # wait_for_completion method is a function that waits for the assistant to complete processing the run.
     def wait_for_completion(self):
         while True:
             time.sleep(5)
