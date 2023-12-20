@@ -1,17 +1,31 @@
 from openai import OpenAI
 import time
+
+# yfinance module is a popular library that provides a convenient way to download historical market data from Yahoo Finance. 
+# It allows you to fetch historical stock prices, financial statements, and other data related to publicly traded companies.
 import yfinance as yf
+
+# load_dotenv function is used to load the environment variables from the .env file into the current environment. 
+# Once loaded, these environment variables can be accessed within the Python script using os.environ or other methods.
 from dotenv import load_dotenv
 import os
 import json
 
+# load_dotenv(), the code is instructing the dotenv module to read the .env file and set the environment variables defined in it. 
+# Once loaded, these environment variables can be accessed within the Python script using os.environ or other methods.
 load_dotenv()
 
+# The following function is designed to fetch the latest closing price of a stock based on its symbol using the yfinance library.
+# The get_stock_price function takes a symbol parameter of type str, representing the stock symbol, and returns a float value.
+# Create a Ticker object from the yf module, using the symbol parameter. This object represents the stock with the specified symbol.
+# Then, it retrieves the historical stock data for the last day (period="1d") using the history method of the Ticker object. 
+# It specifically selects the 'Close' column of the data and retrieves the last value using .iloc[-1].
 
 def get_stock_price(symbol: str) -> float:
     stock = yf.Ticker(symbol)
     price = stock.history(period="1d")['Close'].iloc[-1]
     return price
+
 
 
 class AssistantManager:
