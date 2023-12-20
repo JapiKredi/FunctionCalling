@@ -15,9 +15,9 @@ from dotenv import load_dotenv
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# TTS.list_models()
+#TTS.list_models()
 
-model_name = TTS.list_models()[9]
+model_name = 'tts_models/en/ljspeech/vits--neon'
 tts = TTS(model_name)
 
 tts.tts_to_file(text="I love playing Chess", file_path="output.wav")
