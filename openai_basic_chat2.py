@@ -1,6 +1,8 @@
 import openai
 import os
 import requests
+import json
+from pprint import pprint
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -27,4 +29,7 @@ headers = {
 
 response = requests.post(URL, headers=headers, json=payload, stream=False)
 
-print(response.json())
+formatted_json = json.dumps(response.json(), indent=4)
+# print(formatted_json)
+# Use the pprint function to pretty print the JSON
+pprint(formatted_json)
