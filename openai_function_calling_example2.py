@@ -337,6 +337,14 @@ database_schema_string = "\n".join(
     ]
 )
 
+# tool that represents a function called "ask_database". This function is designed to handle user questions about music by accepting a fully formed SQL query as input.
+# The code you provided defines a list called tools that contains a single dictionary. This dictionary represents a tool, specifically a function, with the following properties:
+# "type": Specifies the type of the tool, which is set to "function".
+# "function": Contains information about the function itself, including its name, description, and parameters.
+# "name": The name of the function, which is set to "ask_database".
+# "description": A description of the function, which is set to "Use this function to answer user questions about music. Input should be a fully formed SQL query.".
+# "parameters": A dictionary containing information about the parameters of the function.
+
 tools = [
     {
         "type": "function",
@@ -362,3 +370,18 @@ tools = [
     }
 ]
 
+def ask_database(conn, query):
+    """Function to query SQLite database with a provided SQL query."""
+    try:
+        results = str(conn.execute(query).fetchall())
+    except Exception as e:
+        results = f"query failed with error: {e}"
+    return results
+
+def execute_function_call(message):
+    if message["tool_calls"][0]["function"]["name"] == "ask_database":
+        query = json.loads(message["tool_calls"][0]["function"]["arguments"])["query"]
+        results = ask_database(conn, query)
+    else:
+        results = f"Error: function {message['tool_calls'][0]['function']['name']} does not exist"
+    return results
