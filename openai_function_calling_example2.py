@@ -292,9 +292,14 @@ def get_table_names(conn):
         table_names.append(table[0])
     return table_names
 
+# This function provides a convenient way to retrieve the column names of a table in an SQLite database using a given connection object and table name.
 # The get_column_names function takes two parameters, conn and table_name, and returns a list of column names for a given table in an SQLite database.
-
-
+# Create an emmpty list of column names
+# It executes an SQL query using the execute method of the conn object. The query uses the PRAGMA table_info statement to retrieve information about the columns of the specified table. The table_info pragma returns one row for each column in the table.
+# The fetchall method is called on the result of the query to retrieve all rows returned by the query.
+# The function iterates over the rows returned by the query using a for loop. Each iteration represents a column in the table.
+# Inside the loop, it appends the second element of each row (the column name) to the column_names list.
+# After iterating over all rows, the function returns the column_names list containing the names of all columns in the specified table.
 
 def get_column_names(conn, table_name):
     """Return a list of column names."""
@@ -304,6 +309,16 @@ def get_column_names(conn, table_name):
         column_names.append(col[1])
     return column_names
 
+# This function provides a way to retrieve information about the tables and their columns in an SQLite database using a given connection object.
+# The get_database_info function takes a connection object conn as input and returns a list of dictionaries. Each dictionary in the list represents a table in the database and contains the table name and its corresponding column names.
+# Defines a function named get_database_info that takes a single parameter conn, which represents the connection object to the SQLite database.
+# Initializes an empty list table_dicts to store the table names and column names.
+# Iterate over each table name in the database by calling the get_table_names function, passing the conn object as an argument.
+# Inside the loop, it calls the get_column_names function, passing the conn object and the current table_name as arguments. This retrieves the column names for the current table.
+# It appends a new dictionary to the table_dicts list. The dictionary has two key-value pairs:
+# "table_name": The key representing the table name, with the value being the current
+# "column_names": The key representing the column names, with the value being the list of column names retrieved from the get_column_names function.
+# After iterating over all tables, the function returns the table_dicts list containing the dictionaries representing each table in the database, along with their respective column names.
 
 def get_database_info(conn):
     """Return a list of dicts containing the table name and columns for each table in the database."""
@@ -312,3 +327,13 @@ def get_database_info(conn):
         columns_names = get_column_names(conn, table_name)
         table_dicts.append({"table_name": table_name, "column_names": columns_names})
     return table_dicts
+
+
+database_schema_dict = get_database_info(conn)
+database_schema_string = "\n".join(
+    [
+        f"Table: {table['table_name']}\nColumns: {', '.join(table['column_names'])}"
+        for table in database_schema_dict
+    ]
+)
+
