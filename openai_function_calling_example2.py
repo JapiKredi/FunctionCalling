@@ -265,6 +265,10 @@ assistant_message = chat_response.json()["choices"][0]["message"]['tool_calls']
 messages.append(assistant_message)
 print(assistant_message)
 
+import sqlite3
 
+conn = sqlite3.connect("data/Chinook.db")
+
+print("Opened database successfully")
 
 
