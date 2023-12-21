@@ -369,6 +369,14 @@ tools = [
         }
     }
 ]
+# This function provides a way to execute SQL queries on an SQLite database using a given connection object and handle any exceptions that may occur during the execution.
+# The ask_database function takes two parameters, conn and query, and is designed to query an SQLite database using a provided SQL query.
+# It defines a function named ask_database that takes two parameters: conn, which represents the connection object to the SQLite database, and query, which is the SQL query to be executed.
+# The function attempts to execute the SQL query using the execute method of the conn object. It then calls the fetchall method to retrieve all the rows returned by the query.
+# The result of the fetchall method is converted to a string using the str function and assigned to the results variable.
+# If the execution of the query encounters an exception, such as a syntax error or a database error, the code enters the except block.
+# Inside the except block, the results variable is assigned a string that indicates the query failed, along with the specific error message. The error message is obtained from the exception object (e) using string formatting.
+# Finally, the function returns the results variable, which contains either the string representation of the query results or the error message if the query failed.
 
 def ask_database(conn, query):
     """Function to query SQLite database with a provided SQL query."""
@@ -378,10 +386,22 @@ def ask_database(conn, query):
         results = f"query failed with error: {e}"
     return results
 
+
+# This function is designed to handle a specific type of message that includes function calls. If the function call is for "ask_database", it extracts the query and executes the ask_database function. 
+# Otherwise, it returns an error message indicating that the function does not exist.
+# It defines a function named execute_function_call that takes a single parameter message.
+# The code checks if the value of the "name" property of the first function call in the message matches the string "ask_database". This is done by accessing the nested properties of the message dictionary using square brackets.
+# If the condition is true, it extracts the value of the "query" property from the "arguments" property of the first function call using json.loads. This assumes that the "arguments" property is a JSON string that can be parsed into a dictionary.
+# It then calls the ask_database function, passing the conn object and the extracted query as arguments, and assigns the result to the results variable.
+# If the condition is false, meaning that the function name is not "ask_database", it assigns an error message to the results variable. The error message includes the name of the non-existing function obtained from the message.
+# Finally, the function returns the results variable, which contains either the results of the ask_database function or an error message if the function name is not "ask_database".
+
 def execute_function_call(message):
     if message["tool_calls"][0]["function"]["name"] == "ask_database":
+        print(message)
         query = json.loads(message["tool_calls"][0]["function"]["arguments"])["query"]
         results = ask_database(conn, query)
     else:
         results = f"Error: function {message['tool_calls'][0]['function']['name']} does not exist"
     return results
+
