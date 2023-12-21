@@ -275,7 +275,14 @@ conn = sqlite3.connect("data/Chinook.db")
 
 print("Opened database successfully")
 
+# This function provides a convenient way to retrieve the names of tables in an SQLite database using a given connection object.
 # The get_table_names function takes a connection object conn as input and returns a list of table names present in the SQLite database.
+# get_table_names that takes a single parameter conn, which represents the connection object to the SQLite database.
+# Initializes an empty list table_names to store the table names.
+# It executes an SQL query using the execute method of the conn object. The query selects the name column from the sqlite_master table where the type is 'table'. This query retrieves the names of all tables in the database.
+# The function iterates over the result of the query using a for loop and the fetchall method. Each iteration retrieves a row from the result.
+# Inside the loop, it appends the first element of each row (the table name) to the table_names list.
+# After iterating over all rows, the function returns the table_names list containing the names of all tables in the database.
 
 def get_table_names(conn):
     """Return a list of table names."""
@@ -284,6 +291,9 @@ def get_table_names(conn):
     for table in tables.fetchall():
         table_names.append(table[0])
     return table_names
+
+# The get_column_names function takes two parameters, conn and table_name, and returns a list of column names for a given table in an SQLite database.
+
 
 
 def get_column_names(conn, table_name):
