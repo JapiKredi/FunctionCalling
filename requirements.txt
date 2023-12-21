@@ -1,3 +1,14 @@
 python-dotenv
 langchain
 openai
+numpy
+pandas
+scipy
+tenacity
+tiktoken
+termcolor 
+requests
+os
+json
+pprint
+time
