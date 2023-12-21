@@ -100,7 +100,28 @@ def pretty_print_conversation(messages):
             print(colored(f"function ({message['name']}): {message['content']}\n", role_to_color[message["role"]]))
 
 
-tools = [
+# Defines a list of two tools, each represented as a dictionary. 
+# These tools are both used for weather-related functionality.
+# The first tool is a function that returns the current weather for a given location.
+# The second tool is a function that returns the weather forecast for a given location for a given number of days.
+# The tools list is passed as an argument to the chat_completion_request function.
+# The chat_completion_request function makes a POST request to the OpenAI API endpoint https://api.openai.com/v1/chat/completions with the headers and JSON payload.
+# It expects to receive a response from the API.
+# If the request is successful, the function returns the response.
+
+# The first tool consists of the following properties:
+# 1: type: The type of tool. In this case, the type is "function".
+# 2: function: A dictionary containing the name, description, and parameters of the function.
+# 3: name: The name of the function.
+# 4: description: A description of the function.
+# 5: parameters: A dictionary containing the parameters of the function.
+# 5a: type: The type of parameter. In this case, the type is "object".
+# 5b: properties: A dictionary containing the properties of the parameter.
+# 5b1: "location: A dictionary containing the type and description of the location parameter.
+# 5b2: "format": A string parameter representing the temperature unit to use, with possible values of "celsius" or "fahrenheit". It is inferred from the user's location.
+# 5c: required: A list of required parameters. In this case, the required parameters are "location" and "format".
+# The second tool also consists of the property 'num_days': The number of days to forecas
+
     {
         "type": "function",
         "function": {
