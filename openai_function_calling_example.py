@@ -222,3 +222,14 @@ pretty_print_conversation(messages)
 print(assistant_message)
 pretty_print_conversation(messages)
 
+# In the following code we NOT are forcing the model to use the get_n_day_weather_forecast function by specifying the tool_choice parameter in the chat_completion_request function.
+
+messages = []
+messages.append({"role": "system", "content": "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous."})
+messages.append({"role": "user", "content": "Give me a weather report for Toronto, Canada."})
+chat_response = chat_completion_request(
+    messages, tools=tools
+)
+
+pretty_print_conversation(messages)
+print(assistant_message)
