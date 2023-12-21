@@ -73,5 +73,80 @@ def chat_completion_request(messages, tools=None, tool_choice=None, model=GPT_MO
         print(f"Exception: {e}")
         return e
 
+# This function visually displays a conversation by printing each message with its role and content in a specific color, making it easier to distinguish between different roles in the conversation.
+# The pretty_print_conversation function takes a list of messages as input and prints each message in a formatted way, assigning different colors to different roles in the conversation.
+# Defines a dictionary role_to_color that maps each role ("system", "user", "assistant", "tool") to a corresponding color ("red", "green", "blue", "magenta").
+# Iterates over each message in the messages list. For example: If the role of the message is "system", it prints the message with the prefix "system:" in the corresponding color.
+# If the role of the message is "assistant" and the message has a key "function_call", it prints the message with the prefix "assistant:" and the value of the "function_call" key in the corresponding color.
+
+def pretty_print_conversation(messages):
+    role_to_color = {
+        "system": "red",
+        "user": "green",
+        "assistant": "blue",
+        "tool": "magenta",
+    }
+    
+    for message in messages:
+        if message["role"] == "system":
+            print(colored(f"system: {message['content']}\n", role_to_color[message["role"]]))
+        elif message["role"] == "user":
+            print(colored(f"user: {message['content']}\n", role_to_color[message["role"]]))
+        elif message["role"] == "assistant" and message.get("function_call"):
+            print(colored(f"assistant: {message['function_call']}\n", role_to_color[message["role"]]))
+        elif message["role"] == "assistant" and not message.get("function_call"):
+            print(colored(f"assistant: {message['content']}\n", role_to_color[message["role"]]))
+        elif message["role"] == "tool":
+            print(colored(f"function ({message['name']}): {message['content']}\n", role_to_color[message["role"]]))
 
 
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_current_weather",
+            "description": "Get the current weather",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "The city and state, e.g. San Francisco, CA",
+                    },
+                    "format": {
+                        "type": "string",
+                        "enum": ["celsius", "fahrenheit"],
+                        "description": "The temperature unit to use. Infer this from the users location.",
+                    },
+                },
+                "required": ["location", "format"],
+            },
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_n_day_weather_forecast",
+            "description": "Get an N-day weather forecast",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "The city and state, e.g. San Francisco, CA",
+                    },
+                    "format": {
+                        "type": "string",
+                        "enum": ["celsius", "fahrenheit"],
+                        "description": "The temperature unit to use. Infer this from the users location.",
+                    },
+                    "num_days": {
+                        "type": "integer",
+                        "description": "The number of days to forecast",
+                    }
+                },
+                "required": ["location", "format", "num_days"]
+            },
+        }
+    },
+]
