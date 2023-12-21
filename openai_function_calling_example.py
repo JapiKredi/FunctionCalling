@@ -173,7 +173,7 @@ tools = [
     },
 ]
 
-"""
+
 messages = []
 messages.append({"role": "system", "content": "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous."})
 messages.append({"role": "user", "content": "What's the weather like today. I am in Glascow Scotland"})
@@ -184,8 +184,7 @@ assistant_message = chat_response.json()["choices"][0]["message"]
 messages.append(assistant_message)
 print(assistant_message)
 pretty_print_conversation(messages)
-"""
-""""
+
 messages = []
 messages.append({"role": "system", "content": "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous."})
 messages.append({"role": "user", "content": "what is the weather going to be like in Glasgow, Scotland over the next x days"})
@@ -205,9 +204,9 @@ chat_response.json()["choices"][0]
 
 print(assistant_message)
 pretty_print_conversation(messages)
-"""
 
-""""
+
+
 # In the following code we are forcing the model to use the get_n_day_weather_forecast function by specifying the tool_choice parameter in the chat_completion_request function.
 messages = []
 messages.append({"role": "system", "content": "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous."})
@@ -221,8 +220,6 @@ messages.append(assistant_message)
 print(assistant_message)
 pretty_print_conversation(messages)
 
-print(assistant_message)
-pretty_print_conversation(messages)
 
 # In the following code we NOT are forcing the model to use the get_n_day_weather_forecast function by specifying the tool_choice parameter in the chat_completion_request function.
 
@@ -237,9 +234,9 @@ assistant_message = chat_response.json()["choices"][0]["message"]
 messages.append(assistant_message)
 print(assistant_message)
 pretty_print_conversation(messages)
-"""
 
-""""
+
+
 messages = []
 messages.append({"role": "system", "content": "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous."})
 messages.append({"role": "user", "content": "Give me the current weather (use Celcius) for Toronto, Canada."})
@@ -252,7 +249,7 @@ messages.append(assistant_message)
 print(assistant_message)
 pretty_print_conversation(messages)
 
-"""
+
 
 # Paralell Function calling. GPT3.5 turno and GPT4 can call multiple functions at the same time. 
 
@@ -265,6 +262,9 @@ chat_response = chat_completion_request(
 
 chat_response.json()
 assistant_message = chat_response.json()["choices"][0]["message"]['tool_calls']
-pretty_print_conversation(assistant_message)
+messages.append(assistant_message)
+print(assistant_message)
+
+
 
 
