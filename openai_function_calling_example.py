@@ -196,3 +196,13 @@ assistant_message = chat_response.json()["choices"][0]["message"]
 messages.append(assistant_message)
 print(assistant_message)
 pretty_print_conversation(messages)
+
+messages.append({"role": "user", "content": "5 days"})
+chat_response = chat_completion_request(
+    messages, tools=tools
+)
+chat_response.json()["choices"][0]
+
+print(assistant_message)
+pretty_print_conversation(messages)
+
