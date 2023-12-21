@@ -417,4 +417,4 @@ if assistant_message.get("tool_calls"):
     messages.append({"role": "tool", "tool_call_id": assistant_message["tool_calls"][0]['id'], "name": assistant_message["tool_calls"][0]["function"]["name"], "content": results})
 pretty_print_conversation(messages)
 
-
+# the end
