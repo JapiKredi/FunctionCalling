@@ -265,10 +265,40 @@ assistant_message = chat_response.json()["choices"][0]["message"]['tool_calls']
 messages.append(assistant_message)
 print(assistant_message)
 
+# imports the sqlite3 module, which is a built-in module in Python for working with SQLite databases.
 import sqlite3
 
+# establishes a connection to an SQLite database file named "Chinook.db" using the connect() function from the sqlite3 module. 
+# The connect() function takes the database file path as an argument and returns a connection object (conn) that represents the connection to the database.
+# Once the connection is established, you can use the conn object to execute SQL queries, fetch data, and perform other database operations.
 conn = sqlite3.connect("data/Chinook.db")
 
 print("Opened database successfully")
 
+# The get_table_names function takes a connection object conn as input and returns a list of table names present in the SQLite database.
 
+def get_table_names(conn):
+    """Return a list of table names."""
+    table_names = []
+    tables = conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    for table in tables.fetchall():
+        table_names.append(table[0])
+    return table_names
+
+
+def get_column_names(conn, table_name):
+    """Return a list of column names."""
+    column_names = []
+    columns = conn.execute(f"PRAGMA table_info('{table_name}');").fetchall()
+    for col in columns:
+        column_names.append(col[1])
+    return column_names
+
+
+def get_database_info(conn):
+    """Return a list of dicts containing the table name and columns for each table in the database."""
+    table_dicts = []
+    for table_name in get_table_names(conn):
+        columns_names = get_column_names(conn, table_name)
+        table_dicts.append({"table_name": table_name, "column_names": columns_names})
+    return table_dicts
